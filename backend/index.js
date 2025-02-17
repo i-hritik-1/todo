@@ -10,6 +10,7 @@ const database = require('./configuration/database.config');
 
 // Importing the routes
 const UserRoute = require('./routes/auth.route');
+const checkListRoute = require('./routes/checklist.route');
 
 // Connecting to database and cloudinary
 database();
@@ -20,6 +21,7 @@ cloudinaryConfig();
 // app.use('/signup', UserRoute);
 
 app.use('/api/v1/auth', UserRoute);
+app.use('/api/v1/checklist',checkListRoute);
 
 
 app.get('/', (req, res) => {
