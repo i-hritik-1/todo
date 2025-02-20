@@ -17,12 +17,8 @@ database();
 cloudinaryConfig();
 
 // Setting up the routes
-
-// app.use('/signup', UserRoute);
-
 app.use('/api/v1/auth', UserRoute);
 app.use('/api/v1/checklist',checkListRoute);
-
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
@@ -31,11 +27,3 @@ app.get('/', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
-
-
-/**
- * This is a simple express server which listens on port 3000 and responds
- * to GET requests on the root path with a "Hello World!" message.
- *
- * @author Hritik Raushan
- */

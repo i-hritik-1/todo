@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 const User = require('../model/user.model');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const JWT_SECRET =  "Chand143Raushan"
+const JWT_SECRET = "Chand143Raushan";
+const authenticationToken = require('../middleware/auth.middleware');
 
 exports.signUp = async (req, res) => {
     const {
@@ -45,7 +46,7 @@ exports.signUp = async (req, res) => {
             })
     }
 
-    const hashedPassword = await bcrypt.hash(password,10);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await User.create(
         {
@@ -94,8 +95,7 @@ exports.login = async (req, res) => {
 
         if(!user)
         {
-            return 
-            res.status(404)
+            return res.status(404)
             .json({
                 error: "User not found.",
                 message: "Please try to login with a different email."
@@ -112,7 +112,6 @@ exports.login = async (req, res) => {
                     firstName: user.firstName,
                     lastName: user.lastName,
                     email : user.email,
-                    password: user.password,
                 },
                 JWT_SECRET,
                 {
@@ -139,30 +138,6 @@ exports.login = async (req, res) => {
         console.log(err);
     }
 }
-
-// exports.forgotPassword = async (req, res) => {
-//     try{
-//         const {
-//             email
-//         } = req.body;
-
-//         const user = await User.findOne({email: email});
-
-//         if(!user)
-//         {
-//             return res.status(404)
-//                 .json({
-//                     error: "User not found.",
-//                     message: "Please enter correct email and try again."
-//                 })
-//         }
-
-        
-//     }
-//     catch(err){
-//         console.log(err);
-//     }
-// }
 
 exports.resetPassword = async (req, res) => {
     const {
@@ -201,10 +176,9 @@ exports.resetPassword = async (req, res) => {
             })
     }
 
-
     const validatePassword = await bcrypt.compare(password, user.password);
 
-    const hashedPassword = await bcrypt.hash(newPassword,10);
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
 
     if(!validatePassword)
     {
@@ -224,19 +198,3 @@ exports.resetPassword = async (req, res) => {
             })
     }
 }
-
-// exports.logOut = async (req, res) => {
-//     try{
-
-
-
-//     }
-//     catch(err){
-//         res.status(500)
-//             .json({
-//                 error: "Internal server error.",
-//                 message: "Please try again later."
-//             })
-//         console.log(err);
-//     }
-// }
